@@ -13,8 +13,10 @@
     cursor: pointer;
 }
 
-.remove-task-button {
-    margin-left: 5px;
+.buttons-container {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .remove-task-button, .see-task-details-button {
@@ -24,6 +26,7 @@
     color: chartreuse;
     cursor: pointer;
     transition: all .5s ease;
+    margin: 0 1px;
 }
 
 .remove-task-button:hover, .see-task-details-button:hover {

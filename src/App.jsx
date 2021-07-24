@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import axios from 'axios';
 // importando o uuid
 import { v4 as uuidv4 } from 'uuid'
 // usando o react-router-dom. Aqui eu chamei o BrowserRouter de Router para facilitar a chamada do componente
@@ -13,18 +14,20 @@ import TaskDetails from './components/TaskDetails';
 
 const App = () => {
   // useState precisa de um valor padrão, ex: useState('Testando')
-  const [tasks, setTasks] = useState([
-    {
-      id: "1",
-      title: "Estudar Programação",
-      completed: true,
-    },
-    {
-      id: "2",
-      title: "Ler Livros",
-      completed: false,
-    },
-  ])
+  const [tasks, setTasks] = useState([])
+
+  // Esse hook executa uma função sempre que um variável muda
+  // O useEffect NÃO PODE SER ASSÍNCRONO
+  useEffect(() => {
+    const fetchTasks = async () => {
+      // requisição http de uma api
+      const {data} = await axios.get('https://jsonplaceholder.cypress.io/todos?_limit=5')
+
+      setTasks(data)
+    }
+
+    fetchTasks()
+  }, [])
 
   const handleTaskClick = (taskId) => {
     const newTask = tasks.map(task => {
@@ -73,7 +76,7 @@ const App = () => {
         {/* component={TaskDetails} -> Só vai renderizar quando eu acessar a rota especificada. Como estamos renderizando um componente diretamente, usamos o component.
         path="/:taskTitle" -> acessando a rota pelo título da task
         */}
-        <Route path="/:taskTitle" exact component={TaskDetails}/>
+        <Route path="/:taskTitle" exact component={TaskDetails} />
 
       </div>
     </Router>
@@ -85,4 +88,5 @@ const App = () => {
 // Obs: npm i uuid -> uuid é uma biblioteca do node que deixa a gente gerar ids aleatórios
 // Obs: npm i react-icons --save -> biblioteca de icones
 // Obs: npm i react-router-dom -> é um recurso que o react usa para simular páginas, pois o react tem um único html -> single page application
+// Obs: npm i axios -> para fazer requisições http
 export default App
