@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       // requisição http de uma api
-      const {data} = await axios.get('https://jsonplaceholder.cypress.io/todos?_limit=5')
+      const { data } = await axios.get('https://jsonplaceholder.cypress.io/todos?_limit=5')
 
       setTasks(data)
     }
@@ -42,15 +42,19 @@ const App = () => {
   }
 
   const handleTaskAddition = (taskTitle) => {
-    // Nova task com tudo (...tasks) que tem na task
-    const newTask = [...tasks, {
-      title: taskTitle,
-      // usando o uuid
-      id: uuidv4(),
-      completed: false
-    }]
+    if (taskTitle !== '') {
+      // Nova task com tudo (...tasks) que tem na task
+      const newTask = [...tasks, {
+        title: taskTitle,
+        // usando o uuid
+        id: uuidv4(),
+        completed: false
+      }]
 
-    setTasks(newTask)
+      setTasks(newTask)
+    } else {
+      alert('Por favor preencha o campo título!')
+    }
   }
 
   const handleTaskDeletion = (taskId) => {
